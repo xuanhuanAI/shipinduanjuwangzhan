@@ -171,7 +171,7 @@ export function App() {
             <div><span>经历</span><strong>2+<small>年</small></strong></div>
             <div><span>代表项目</span><strong>8<small>部+</small></strong></div>
             <div><span>制作能力</span><strong>全流程</strong></div>
-            <div><span>任职公司</span><b>好谷智能科技有限公司<br />2024—2026</b></div>
+            <div><span>任职公司</span><b>河南荧灿文化发展<br />2024—2026</b></div>
           </div>
           <div className="contact-inline" data-reveal>
             <a href="tel:16625116217"><Phone size={17} />166 2511 6217</a>
