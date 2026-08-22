@@ -187,22 +187,16 @@ export function App() {
         </div>
         <div className="project-categories page-shell">
           {[
-            ["01", "短剧", "SHORT DRAMA"],
-            ["02", "其他板块", "OTHER WORKS"],
-          ].map(([number, title, label]) => (
-            <article className="project-category-card" key={number} data-reveal>
-              <div className="project-category-topline">
-                <span>{number}</span>
-                <i aria-hidden="true" />
-              </div>
-              <div className="project-category-title">
-                <BlurText as="small" text={label} delay={80} />
-                <BlurText as="h3" text={title} delay={120} />
-              </div>
-            </article>
-          ))}
+            ["01", "短剧", "SHORT DRAMA", "shortDrama"],
+            ["02", "其他板块", "OTHER WORKS", "otherWorks"],
+          ].map(([number, title, label, category]) => {
+            const projects = content.projects.filter((project) => (project.category || "shortDrama") === category);
+            return <section className="project-category" key={category}>
+              <article className="project-category-card" data-reveal><div className="project-category-topline"><span>{number}</span><i aria-hidden="true" /></div><div className="project-category-title"><BlurText as="small" text={label} delay={80} /><BlurText as="h3" text={title} delay={120} /></div></article>
+              {projects.length > 0 && <div className="managed-projects">{projects.map((project) => <article key={project.id} className="managed-project" style={{ backgroundImage: `linear-gradient(0deg, rgba(0,0,0,.82), rgba(0,0,0,.12)), url(${project.coverUrl})` }}><small>{project.type}</small><h3>{project.title}</h3><p>{project.description}</p>{project.videoUrl && <video controls preload="metadata" playsInline src={project.videoUrl} aria-label={`播放${project.title}`} />}</article>)}</div>}
+            </section>;
+          })}
         </div>
-        {content.projects.length > 0 && <div className="managed-projects page-shell">{content.projects.map((project) => <article key={project.id} className="managed-project" style={{ backgroundImage: `linear-gradient(0deg, rgba(0,0,0,.82), rgba(0,0,0,.12)), url(${project.coverUrl})` }}><small>{project.type}</small><h3>{project.title}</h3><p>{project.description}</p>{project.videoUrl && <video controls preload="metadata" playsInline src={project.videoUrl} aria-label={`播放${project.title}`} />}</article>)}</div>}
       </section>
 
       <section className="gallery" id="gallery" aria-labelledby="gallery-title">

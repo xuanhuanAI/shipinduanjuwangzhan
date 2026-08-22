@@ -556,7 +556,8 @@ img, video { display: block; width: 100%; }
   transform: translate3d(0, 0, 0);
 }
 
-.managed-projects { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:1px; background:var(--line); }
+.project-category { min-width:0; }
+.managed-projects { display:grid; grid-template-columns:1fr; gap:1px; margin-top:1px; background:var(--line); }
 .managed-project { min-height:300px; padding:28px; display:flex; flex-direction:column; justify-content:flex-end; background-color:#111; background-position:center; background-size:cover; }
 .managed-project small { color:var(--accent); font-size:10px; letter-spacing:.12em; }
 .managed-project h3 { margin:10px 0 8px; font-size:28px; }
@@ -570,7 +571,7 @@ img, video { display: block; width: 100%; }
 .admin-note,.admin-status { color:#aaa; font-size:12px; line-height:1.65; }
 .admin-drawer section { padding:18px 0; border-bottom:1px solid var(--line); }
 .admin-drawer h3 { margin:0 0 13px; font-size:14px; }
-.admin-drawer input,.admin-drawer textarea { box-sizing:border-box; width:100%; margin:0 0 9px; padding:10px; border:1px solid #373737; border-radius:0; background:#090909; color:#fff; font:inherit; font-size:13px; }
+.admin-drawer input,.admin-drawer textarea,.admin-drawer select { box-sizing:border-box; width:100%; margin:0 0 9px; padding:10px; border:1px solid #373737; border-radius:0; background:#090909; color:#fff; font:inherit; font-size:13px; }
 .admin-drawer textarea { min-height:72px; resize:vertical; }
 .admin-drawer label { display:block; margin:8px 0; color:#bcbcbc; font-size:12px; }
 .admin-drawer label input[type=file] { margin:5px 0 0; }
