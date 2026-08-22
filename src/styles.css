@@ -574,6 +574,12 @@ img, video { display: block; width: 100%; }
 .admin-drawer textarea { min-height:72px; resize:vertical; }
 .admin-drawer label { display:block; margin:8px 0; color:#bcbcbc; font-size:12px; }
 .admin-drawer label input[type=file] { margin:5px 0 0; }
+.admin-project-list { display:grid; gap:8px; }
+.admin-project-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px; border:1px solid #2d2d2d; }
+.admin-project-row span { display:grid; gap:3px; min-width:0; }
+.admin-project-row strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:13px; }
+.admin-project-row small { color:#929292; font-size:11px; }
+.admin-drawer .admin-delete { display:inline-flex; align-items:center; gap:4px; flex:none; background:transparent; border:1px solid #7a3030; color:#ff8989; padding:7px 9px; cursor:pointer; }
 .admin-drawer button:not(header button) { display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:10px 12px; border:1px solid var(--accent); background:var(--accent); color:#101010; cursor:pointer; font:inherit; font-size:12px; }
 .upload-label { display:inline-flex !important; align-items:center; gap:7px; padding:10px 12px; border:1px solid #555; cursor:pointer; }
 .upload-label input { display:none; }
