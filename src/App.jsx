@@ -39,7 +39,7 @@ export function App() {
   const [content, setContent] = useState({ galleryAssets, projects: [], siteMedia: {} });
 
   useEffect(() => {
-    loadManifest().then((saved) => { if (saved) setContent((current) => ({ ...current, ...saved, galleryAssets: saved.galleryAssets?.length ? saved.galleryAssets : current.galleryAssets, projects: saved.projects || [] })); }).catch(() => {});
+    loadManifest().then((saved) => { if (saved) setContent((current) => ({ ...current, ...saved, galleryAssets: Array.isArray(saved.galleryAssets) ? saved.galleryAssets : current.galleryAssets, projects: Array.isArray(saved.projects) ? saved.projects : current.projects })); }).catch(() => {});
   }, []);
 
   useEffect(() => {
