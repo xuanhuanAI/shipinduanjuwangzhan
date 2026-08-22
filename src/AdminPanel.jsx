@@ -37,6 +37,16 @@ export default function AdminPanel({ content, onContentChange }) {
     } catch (error) { setStatus(error.message); }
     event.target.value = "";
   }
+  async function removeGalleryAsset(asset) {
+    if (!window.confirm(`确认从网站移除「${asset.label}」吗？`)) return;
+    try {
+      setStatus("正在移除图片并同步…");
+      const next = { ...content, galleryAssets: content.galleryAssets.filter((item) => item.id !== asset.id) };
+      await syncManifest(next);
+      onContentChange(next);
+      setStatus("图片已从网站移除，访客刷新后将不再看到它。");
+    } catch (error) { setStatus(error.message); }
+  }
   async function addProject(event) {
     event.preventDefault(); const form = new FormData(event.currentTarget); const cover = form.get("cover"); const video = form.get("video");
     if (!(cover instanceof File) || !cover.size) return setStatus("请为项目选择背景图片。");
@@ -64,6 +74,7 @@ export default function AdminPanel({ content, onContentChange }) {
     <section><h3>腾讯云 COS 授权</h3><input placeholder="SecretId（建议使用仅限此桶写入的子账号）" value={config.secretId} onChange={(e) => setConfig({ ...config, secretId: e.target.value })}/><input type="password" placeholder="SecretKey" value={config.secretKey} onChange={(e) => setConfig({ ...config, secretKey: e.target.value })}/><button type="button" onClick={saveConfig}>保存授权</button><p className="admin-note">密钥仅保存在当前浏览器，不会提交到 GitHub。</p></section>
     <section><h3>页面背景与素材</h3><label>首页背景视频<input type="file" accept="video/*" data-field="heroVideo" onChange={uploadSiteMedia}/></label><label>首页背景图<input type="file" accept="image/*" data-field="heroPoster" onChange={uploadSiteMedia}/></label><label>关于页图片<input type="file" accept="image/*" data-field="portrait" onChange={uploadSiteMedia}/></label><label>联系页背景<input type="file" accept="image/*" data-field="contactBackground" onChange={uploadSiteMedia}/></label></section>
     <section><h3>添加图片资产</h3><label>图片归类<select value={galleryCategory} onChange={(e) => setGalleryCategory(e.target.value)}><option value="characters">人物资产图</option><option value="scenes">场景资产图</option></select></label><input placeholder="图片名称" value={title} onChange={(e) => setTitle(e.target.value)}/><label className="upload-label"><CloudArrowUp size={18}/>选择图片<input type="file" accept="image/*" onChange={uploadGallery}/></label></section>
+    {content.galleryAssets.length > 0 && <section><h3>已发布图片资产</h3><div className="admin-project-list">{content.galleryAssets.map((asset) => <div key={asset.id} className="admin-project-row"><span><strong>{asset.label}</strong><small>{asset.category === "scenes" ? "场景资产图" : "人物资产图"}</small></span><button type="button" className="admin-delete" onClick={() => removeGalleryAsset(asset)} aria-label={`删除${asset.label}`}><Trash size={16}/>删除</button></div>)}</div></section>}
     <section><h3>添加项目</h3><form onSubmit={addProject}><label>项目归类<select name="projectCategory" defaultValue="shortDrama"><option value="shortDrama">短剧</option><option value="otherWorks">其他板块</option></select></label><input name="projectTitle" required placeholder="项目名称"/><input name="projectType" required placeholder="项目类型，例如 AI 漫剧"/><textarea name="projectDescription" placeholder="项目简介"/><label>项目背景图片<input name="cover" type="file" accept="image/*" required/></label><label>项目视频（访客可点击播放）<input name="video" type="file" accept="video/*"/></label><button type="submit"><Plus size={16}/>添加并同步</button></form></section>
     {content.projects.length > 0 && <section><h3>已发布项目</h3><div className="admin-project-list">{content.projects.map((project) => <div key={project.id} className="admin-project-row"><span><strong>{project.title}</strong><small>{project.category === "otherWorks" ? "其他板块" : "短剧"} · {project.type}</small></span><button type="button" className="admin-delete" onClick={() => removeProject(project)} aria-label={`删除${project.title}`}><Trash size={16}/>删除</button></div>)}</div></section>}
     <p className="admin-status">{status || (isCosConfigured() ? "COS 已配置，可以上传。" : "请先保存 COS 授权后再上传。")}</p>
