@@ -371,6 +371,11 @@ img, video { display: block; width: 100%; }
   grid-template-rows: repeat(3, clamp(220px, 18vw, 330px));
   gap: 14px;
 }
+.gallery-groups { display:grid; gap:48px; }
+.gallery-group-title { display:flex; align-items:baseline; gap:14px; padding-bottom:14px; border-bottom:1px solid var(--line); }
+.gallery-group-title small { color:var(--accent); letter-spacing:.12em; font-size:10px; }
+.gallery-group-title h3 { margin:0; font-size:28px; }
+.gallery-group-title span { margin-left:auto; color:#777; font-size:12px; letter-spacing:.1em; }
 .gallery-item {
   position: relative;
   display: block;
