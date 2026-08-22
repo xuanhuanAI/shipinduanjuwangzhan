@@ -35,6 +35,7 @@ const galleryAssets = [
 export function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeAsset, setActiveAsset] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(null);
   const [content, setContent] = useState({ galleryAssets, projects: [], siteMedia: {} });
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export function App() {
     const close = (event) => {
       if (event.key === "Escape") {
         setActiveAsset(null);
+        setActiveCategory(null);
         setMenuOpen(false);
       }
     };
@@ -65,7 +67,7 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    if (!activeAsset) return undefined;
+    if (!activeAsset && !activeCategory) return undefined;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
@@ -191,10 +193,7 @@ export function App() {
             ["02", "其他板块", "OTHER WORKS", "otherWorks"],
           ].map(([number, title, label, category]) => {
             const projects = content.projects.filter((project) => (project.category || "shortDrama") === category);
-            return <section className="project-category" key={category}>
-              <article className="project-category-card" data-reveal><div className="project-category-topline"><span>{number}</span><i aria-hidden="true" /></div><div className="project-category-title"><BlurText as="small" text={label} delay={80} /><BlurText as="h3" text={title} delay={120} /></div></article>
-              {projects.length > 0 && <div className="managed-projects">{projects.map((project) => <article key={project.id} className="managed-project" style={{ backgroundImage: `linear-gradient(0deg, rgba(0,0,0,.82), rgba(0,0,0,.12)), url(${project.coverUrl})` }}><small>{project.type}</small><h3>{project.title}</h3><p>{project.description}</p>{project.videoUrl && <video controls preload="metadata" playsInline src={project.videoUrl} aria-label={`播放${project.title}`} />}</article>)}</div>}
-            </section>;
+            return <button className="project-category-card project-category-button" type="button" key={category} data-reveal onClick={() => setActiveCategory({ title, label, projects })}><div className="project-category-topline"><span>{number}</span><i aria-hidden="true" /></div><div className="project-category-title"><BlurText as="small" text={label} delay={80} /><BlurText as="h3" text={title} delay={120} /></div><span className="project-category-enter">查看 {projects.length ? `${projects.length} 个项目` : "项目"} →</span></button>;
           })}
         </div>
       </section>
@@ -329,6 +328,15 @@ export function App() {
               <strong id="lightbox-title">{activeAsset.label}</strong>
             </figcaption>
           </figure>
+        </div>
+      )}
+      {activeCategory && (
+        <div className="project-view" role="dialog" aria-modal="true" aria-labelledby="project-view-title">
+          <button className="project-view-backdrop" type="button" onClick={() => setActiveCategory(null)} aria-label="关闭项目列表" />
+          <section className="project-view-panel">
+            <header><div><small>{activeCategory.label}</small><h2 id="project-view-title">{activeCategory.title}</h2></div><button type="button" onClick={() => setActiveCategory(null)} aria-label="关闭"><X size={22} /></button></header>
+            {activeCategory.projects.length ? <div className="project-view-grid">{activeCategory.projects.map((project) => <article key={project.id} className="project-view-item"><img src={project.coverUrl} alt={`${project.title}封面`} /><div><small>{project.type}</small><h3>{project.title}</h3><p>{project.description}</p>{project.videoUrl ? <video controls preload="metadata" playsInline src={project.videoUrl} aria-label={`播放${project.title}`} /> : <span className="project-view-empty">暂未上传视频</span>}</div></article>)}</div> : <p className="project-view-empty">这里还没有项目，请通过右下角内容管理添加。</p>}
+          </section>
         </div>
       )}
       <AdminPanel content={content} onContentChange={setContent} />
