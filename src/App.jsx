@@ -202,7 +202,7 @@ export function App() {
             </article>
           ))}
         </div>
-        {content.projects.length > 0 && <div className="managed-projects page-shell">{content.projects.map((project) => <article key={project.id} className="managed-project" style={{ backgroundImage: `linear-gradient(0deg, rgba(0,0,0,.82), rgba(0,0,0,.12)), url(${project.coverUrl})` }}><small>{project.type}</small><h3>{project.title}</h3><p>{project.description}</p></article>)}</div>}
+        {content.projects.length > 0 && <div className="managed-projects page-shell">{content.projects.map((project) => <article key={project.id} className="managed-project" style={{ backgroundImage: `linear-gradient(0deg, rgba(0,0,0,.82), rgba(0,0,0,.12)), url(${project.coverUrl})` }}><small>{project.type}</small><h3>{project.title}</h3><p>{project.description}</p>{project.videoUrl && <video controls preload="metadata" playsInline src={project.videoUrl} aria-label={`播放${project.title}`} />}</article>)}</div>}
       </section>
 
       <section className="gallery" id="gallery" aria-labelledby="gallery-title">

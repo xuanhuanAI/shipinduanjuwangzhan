@@ -1,7 +1,22 @@
-# 部署说明
+# GitHub Pages 与腾讯云 COS
 
-将代码推送到 GitHub 后，在 Vercel 导入仓库并部署。GitHub Pages 没有服务端接口，无法安全保存腾讯云密钥，因此不适用于本项目的上传功能。
+每次推送 `main` 分支，GitHub Actions 会自动构建并发布网站到 GitHub Pages。首次使用时，请在仓库 **Settings → Pages → Build and deployment** 中将 Source 设为 **GitHub Actions**。
 
-在 Vercel 的 Environment Variables 中填入 `.env.example` 的所有变量。腾讯云 CAM 创建一个只允许对本 COS 桶执行 `cos:PutObject` 的角色，并将 ARN 填到 `TENCENT_COS_ROLE_ARN`。
+网站地址为：`https://xuanhuanai.github.io/shipinduanjuwangzhan/`
 
-在 COS CORS 中允许 Vercel 域名使用 `PUT, GET, HEAD`，允许请求头 `*`。部署后，在网站右下角管理入口输入 `UPLOAD_PASSWORD`，即可上传视频、背景图和项目封面；文件直传 COS，内容清单自动同步。
+## 上传视频
+
+1. 打开网站右下角的齿轮图标。
+2. 输入腾讯云 COS 的 `SecretId` 和 `SecretKey`，点击保存授权。
+3. 上传首页背景视频，或在“添加项目”中上传项目封面；上传完成后内容清单会同步到 COS。
+4. 访客刷新网站后可以看到新增内容；项目视频会以播放器形式打开并可点击播放。
+
+密钥仅保存在当前浏览器的 localStorage 中，不会提交到 GitHub。请使用只允许该存储桶写入的腾讯云子账号密钥。
+
+## COS CORS
+
+在 COS 控制台为桶 `liwanmin-0115-1454067572` 添加 CORS 规则：
+
+- Origin：`https://xuanhuanai.github.io`
+- Methods：`GET, PUT, HEAD, POST`
+- Allowed Headers：`*`

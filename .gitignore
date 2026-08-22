@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .npm-cache/
+.xdg-data/
 .env
 .env.*
 !.env.example

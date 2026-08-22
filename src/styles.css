@@ -561,6 +561,7 @@ img, video { display: block; width: 100%; }
 .managed-project small { color:var(--accent); font-size:10px; letter-spacing:.12em; }
 .managed-project h3 { margin:10px 0 8px; font-size:28px; }
 .managed-project p { margin:0; color:#c2c2c2; line-height:1.65; }
+.managed-project video { display:block; width:100%; margin-top:20px; background:#000; }
 .admin-entry { position:fixed; z-index:20; right:20px; bottom:20px; width:44px; height:44px; border:1px solid rgba(255,255,255,.22); border-radius:50%; background:#111; color:#fff; display:grid; place-items:center; cursor:pointer; }
 .admin-drawer { position:fixed; z-index:30; top:0; right:0; width:min(430px,100vw); height:100vh; background:#111; color:#fff; border-left:1px solid var(--line); box-shadow:-20px 0 70px rgba(0,0,0,.5); }
 .admin-drawer header { height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:1px solid var(--line); }
