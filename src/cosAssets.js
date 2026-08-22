@@ -11,6 +11,10 @@ export function cosAsset(fileName) {
   return `${COS_PUBLIC_BASE_URL}/assets/${fileName}`;
 }
 
+export function localAsset(fileName) {
+  return `${import.meta.env.BASE_URL}assets/${fileName}`;
+}
+
 export function cosUrl(key) {
   return `${COS_PUBLIC_BASE_URL}/${key}`;
 }

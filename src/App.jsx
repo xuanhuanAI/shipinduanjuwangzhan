@@ -11,7 +11,7 @@ import {
 } from "@phosphor-icons/react";
 import BlurText from "./components/BlurText";
 import ParticleText from "./components/ParticleText";
-import { cosAsset, loadManifest, useLocalAssetFallback } from "./cosAssets";
+import { cosAsset, loadManifest, localAsset, useLocalAssetFallback } from "./cosAssets";
 import AdminPanel from "./AdminPanel";
 
 const strengths = [
@@ -108,7 +108,7 @@ export function App() {
           loop
           playsInline
           src={content.siteMedia.heroVideo || cosAsset("hero-editor-studio.mp4")}
-          data-fallback-src="/assets/hero-editor-studio.mp4"
+          data-fallback-src={localAsset("hero-editor-studio.mp4")}
           onError={useLocalAssetFallback}
           poster={content.siteMedia.heroPoster || cosAsset("hero-editor-studio.png")}
           aria-hidden="true"
@@ -152,7 +152,7 @@ export function App() {
 
       <section className="about" id="about">
         <div className="about-image" data-reveal>
-          <img src={content.siteMedia.portrait || cosAsset("portrait-editor-bw.png")} data-fallback-src="/assets/portrait-editor-bw.png" onError={useLocalAssetFallback} alt="李万民在剪辑工作室工作的黑白人物照" />
+          <img src={content.siteMedia.portrait || cosAsset("portrait-editor-bw.png")} data-fallback-src={localAsset("portrait-editor-bw.png")} onError={useLocalAssetFallback} alt="李万民在剪辑工作室工作的黑白人物照" />
         </div>
         <div className="about-copy">
           <BlurText as="p" text="ABOUT" delay={100} className="eyebrow" />
@@ -228,7 +228,7 @@ export function App() {
               aria-label={`查看${asset.label}`}
               data-reveal
             >
-              <img src={asset.url || cosAsset(asset.fileName)} data-fallback-src={asset.fileName ? `/assets/${asset.fileName}` : ""} onError={useLocalAssetFallback} alt={asset.alt} loading="lazy" />
+              <img src={asset.url || cosAsset(asset.fileName)} data-fallback-src={asset.fileName ? localAsset(asset.fileName) : ""} onError={useLocalAssetFallback} alt={asset.alt} loading="lazy" />
               <span className="gallery-item-shade" />
               <span className="gallery-item-index">{asset.id} / 06</span>
               <span className="gallery-item-copy">
@@ -274,7 +274,7 @@ export function App() {
       </section>
 
       <section className="contact" id="contact">
-        <img src={content.siteMedia.contactBackground || cosAsset("contact-lighthouse.png")} data-fallback-src="/assets/contact-lighthouse.png" onError={useLocalAssetFallback} alt="风暴海岸与远处灯塔的电影画面" />
+        <img src={content.siteMedia.contactBackground || cosAsset("contact-lighthouse.png")} data-fallback-src={localAsset("contact-lighthouse.png")} onError={useLocalAssetFallback} alt="风暴海岸与远处灯塔的电影画面" />
         <div className="contact-overlay" />
         <div className="contact-content page-shell">
           <BlurText as="p" text="CONTACT" delay={100} className="eyebrow" />
@@ -329,7 +329,7 @@ export function App() {
             >
               <X size={22} />
             </button>
-            <img src={activeAsset.url || cosAsset(activeAsset.fileName)} data-fallback-src={activeAsset.fileName ? `/assets/${activeAsset.fileName}` : ""} onError={useLocalAssetFallback} alt={activeAsset.alt} />
+            <img src={activeAsset.url || cosAsset(activeAsset.fileName)} data-fallback-src={activeAsset.fileName ? localAsset(activeAsset.fileName) : ""} onError={useLocalAssetFallback} alt={activeAsset.alt} />
             <figcaption>
               <span>{activeAsset.id} / 06</span>
               <strong id="lightbox-title">{activeAsset.label}</strong>
