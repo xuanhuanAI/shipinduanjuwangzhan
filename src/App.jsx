@@ -160,22 +160,22 @@ export function App() {
           <BlurText as="p" text="ABOUT" delay={100} className="eyebrow" />
           <BlurText as="h2" text={"用影像讲好故事，\n用 AI 拓展想象的边界。"} delay={120} />
           <BlurText
-            text="我叫李万民，是一名专注内容叙事与视觉表达的 AI 短剧剪辑师。熟悉真人短剧的粗剪、精剪与节奏把控，也能独立完成 AI 漫剧从小说改写、剧本分镜、资产图建立、视频生成到剪辑成片的完整流程。"
+            text={content.profile?.aboutPrimary || "我叫李万民，是一名专注内容叙事与视觉表达的 AI 短剧剪辑师。熟悉真人短剧的粗剪、精剪与节奏把控，也能独立完成 AI 漫剧从小说改写、剧本分镜、资产图建立、视频生成到剪辑成片的完整流程。"}
             delay={32}
           />
           <BlurText
-            text="我相信，好故事既要被看见，也值得被更好的方式呈现。AI 是创作伙伴，让想象更高效地落地成片。"
+            text={content.profile?.aboutSecondary || "我相信，好故事既要被看见，也值得被更好的方式呈现。AI 是创作伙伴，让想象更高效地落地成片。"}
             delay={38}
           />
           <div className="about-meta" data-reveal>
-            <div><span>经历</span><strong>2+<small>年</small></strong></div>
-            <div><span>代表项目</span><strong>8<small>部+</small></strong></div>
+            <div><span>经历</span><strong>{content.profile?.experienceValue || "2+"}<small>{content.profile?.experienceUnit || "年"}</small></strong></div>
+            <div><span>代表项目</span><strong>{content.profile?.projectValue || "8"}<small>{content.profile?.projectUnit || "部+"}</small></strong></div>
             <div><span>制作能力</span><strong>全流程</strong></div>
             <div><span>任职公司</span><b>{content.profile?.companyName || "河南荧灿文化发展"}<br />{content.profile?.companyPeriod || "2024—2026"}</b></div>
           </div>
           <div className="contact-inline" data-reveal>
-            <a href="tel:16625116217"><Phone size={17} />166 2511 6217</a>
-            <a href="mailto:13673958331@163.com"><EnvelopeSimple size={17} />13673958331@163.com</a>
+            <a href={`tel:${(content.profile?.phone || "166 2511 6217").replace(/\s+/g, "")}`}><Phone size={17} />{content.profile?.phone || "166 2511 6217"}</a>
+            <a href={`mailto:${content.profile?.email || "13673958331@163.com"}`}><EnvelopeSimple size={17} />{content.profile?.email || "13673958331@163.com"}</a>
           </div>
         </div>
       </section>
