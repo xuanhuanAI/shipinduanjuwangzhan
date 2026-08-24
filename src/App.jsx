@@ -94,7 +94,7 @@ export function App() {
           <i>/</i>
           <a href="#contact" onClick={closeMenu}>联系</a>
         </nav>
-        <a className="header-contact" href="mailto:13673958331@163.com?subject=作品合作咨询">
+        <a className="header-contact" href={`mailto:${content.profile?.email || "13673958331@163.com"}?subject=作品合作咨询`}>
           联系我 <ArrowUpRight size={16} />
         </a>
         <button className="menu-toggle" onClick={() => setMenuOpen((value) => !value)} aria-label="打开导航">
@@ -297,14 +297,14 @@ export function App() {
             gradient
           />
           <div className="contact-actions">
-            <a href="mailto:13673958331@163.com?subject=作品合作咨询">
+            <a href={`mailto:${content.profile?.email || "13673958331@163.com"}?subject=作品合作咨询`}>
               <BlurText as="span" text="联系我，聊聊你的项目" delay={55} /> <ArrowRight size={21} />
             </a>
-            <a href="tel:16625116217"><BlurText as="span" text="166 2511 6217" delay={55} /></a>
+            <a href={`tel:${(content.profile?.phone || "166 2511 6217").replace(/\s+/g, "")}`}><BlurText as="span" text={content.profile?.phone || "166 2511 6217"} delay={55} /></a>
           </div>
         </div>
         <footer className="footer page-shell">
-          <BlurText as="span" text="© 2024—2026 李万民 · 保留所有权利" delay={35} />
+          <BlurText as="span" text={content.profile?.footerCopyright || "© 2024—2026 李万民 · 保留所有权利"} delay={35} />
           <BlurText as="span" text="AI EDITOR · AVAILABLE FOR WORK" delay={45} />
           <a href="#home" aria-label="返回顶部"><ArrowUp size={16} /> TOP</a>
         </footer>
