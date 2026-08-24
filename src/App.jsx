@@ -124,7 +124,7 @@ export function App() {
             <ParticleText
               id="hero-title"
               className="hero-title-particles"
-              text="李万民"
+              text={content.profile?.displayName || "李万民"}
               particleSize={2}
               density={4}
               color="#ffffff"
@@ -142,7 +142,7 @@ export function App() {
               align="left"
               gradient
             />
-            <BlurText as="p" text="剪辑师 / AI设计师 / AI漫剧" delay={75} className="hero-role" />
+            <BlurText as="p" text={content.profile?.heroRole || "剪辑师 / AI设计师 / AI漫剧"} delay={75} className="hero-role" />
             <a className="play-link" href="#projects" data-reveal>
               <span><Play size={13} weight="fill" /></span>
               PLAY REEL

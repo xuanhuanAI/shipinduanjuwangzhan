@@ -18,6 +18,8 @@ export default function AdminPanel({ content, onContentChange }) {
   const [aboutSecondary, setAboutSecondary] = useState(() => content.profile?.aboutSecondary || "我相信，好故事既要被看见，也值得被更好的方式呈现。AI 是创作伙伴，让想象更高效地落地成片。");
   const [phone, setPhone] = useState(() => content.profile?.phone || "166 2511 6217");
   const [email, setEmail] = useState(() => content.profile?.email || "13673958331@163.com");
+  const [displayName, setDisplayName] = useState(() => content.profile?.displayName || "李万民");
+  const [heroRole, setHeroRole] = useState(() => content.profile?.heroRole || "剪辑师 / AI设计师 / AI漫剧");
 
   useEffect(() => {
     const profile = content.profile || {};
@@ -31,6 +33,8 @@ export default function AdminPanel({ content, onContentChange }) {
     setAboutSecondary(profile.aboutSecondary || "我相信，好故事既要被看见，也值得被更好的方式呈现。AI 是创作伙伴，让想象更高效地落地成片。");
     setPhone(profile.phone || "166 2511 6217");
     setEmail(profile.email || "13673958331@163.com");
+    setDisplayName(profile.displayName || "李万民");
+    setHeroRole(profile.heroRole || "剪辑师 / AI设计师 / AI漫剧");
   }, [content.profile]);
 
   function saveConfig() {
@@ -62,10 +66,10 @@ export default function AdminPanel({ content, onContentChange }) {
     event.target.value = "";
   }
   async function saveProfile() {
-    if (![companyName, companyPeriod, experienceValue, experienceUnit, projectValue, projectUnit, aboutPrimary, aboutSecondary, phone, email].every((value) => value.trim())) return setStatus("请完整填写关于我与联系方式。");
+    if (![companyName, companyPeriod, experienceValue, experienceUnit, projectValue, projectUnit, aboutPrimary, aboutSecondary, phone, email, displayName, heroRole].every((value) => value.trim())) return setStatus("请完整填写首页、关于我与联系方式。");
     try {
       setStatus("正在同步关于我与联系方式…");
-      const next = { ...content, profile: { ...content.profile, companyName: companyName.trim(), companyPeriod: companyPeriod.trim(), experienceValue: experienceValue.trim(), experienceUnit: experienceUnit.trim(), projectValue: projectValue.trim(), projectUnit: projectUnit.trim(), aboutPrimary: aboutPrimary.trim(), aboutSecondary: aboutSecondary.trim(), phone: phone.trim(), email: email.trim() } };
+      const next = { ...content, profile: { ...content.profile, companyName: companyName.trim(), companyPeriod: companyPeriod.trim(), experienceValue: experienceValue.trim(), experienceUnit: experienceUnit.trim(), projectValue: projectValue.trim(), projectUnit: projectUnit.trim(), aboutPrimary: aboutPrimary.trim(), aboutSecondary: aboutSecondary.trim(), phone: phone.trim(), email: email.trim(), displayName: displayName.trim(), heroRole: heroRole.trim() } };
       await syncManifest(next);
       onContentChange(next);
       setStatus("关于我与联系方式已同步，访客刷新后即可看到。");
@@ -106,7 +110,7 @@ export default function AdminPanel({ content, onContentChange }) {
   return <aside className="admin-drawer" aria-label="内容管理"><header><strong>内容管理</strong><button type="button" onClick={() => setOpen(false)}><X size={20} /></button></header><div className="admin-scroll">
     <p className="admin-note">桶：liwanmin-0115-1454067572（广州）。视频、图片和内容清单都会自动同步到 COS，访客刷新后即可看到。</p>
     <section><h3>腾讯云 COS 授权</h3><input placeholder="SecretId（建议使用仅限此桶写入的子账号）" value={config.secretId} onChange={(e) => setConfig({ ...config, secretId: e.target.value })}/><input type="password" placeholder="SecretKey" value={config.secretKey} onChange={(e) => setConfig({ ...config, secretKey: e.target.value })}/><button type="button" onClick={saveConfig}>保存授权</button><p className="admin-note">密钥仅保存在当前浏览器，不会提交到 GitHub。</p></section>
-    <section><h3>关于我与联系方式</h3><label>第一段个人介绍<textarea value={aboutPrimary} onChange={(e) => setAboutPrimary(e.target.value)} /></label><label>第二段个人介绍<textarea value={aboutSecondary} onChange={(e) => setAboutSecondary(e.target.value)} /></label><label>经历数字<input value={experienceValue} onChange={(e) => setExperienceValue(e.target.value)} placeholder="例如：2+" /></label><label>经历单位<input value={experienceUnit} onChange={(e) => setExperienceUnit(e.target.value)} placeholder="例如：年" /></label><label>代表项目数字<input value={projectValue} onChange={(e) => setProjectValue(e.target.value)} placeholder="例如：8" /></label><label>代表项目单位<input value={projectUnit} onChange={(e) => setProjectUnit(e.target.value)} placeholder="例如：部+" /></label><label>公司名称<input value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="例如：河南荧灿文化发展" /></label><label>任职时间<input value={companyPeriod} onChange={(e) => setCompanyPeriod(e.target.value)} placeholder="例如：2024—2026" /></label><label>手机号<input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="例如：166 2511 6217" /></label><label>邮箱<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="例如：name@example.com" /></label><button type="button" onClick={saveProfile}>保存关于我与联系方式</button></section>
+    <section><h3>首页、关于我与联系方式</h3><label>首页姓名<input value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="例如：李万民" /></label><label>首页职业描述<input value={heroRole} onChange={(e) => setHeroRole(e.target.value)} placeholder="例如：剪辑师 / AI设计师 / AI漫剧" /></label><label>第一段个人介绍<textarea value={aboutPrimary} onChange={(e) => setAboutPrimary(e.target.value)} /></label><label>第二段个人介绍<textarea value={aboutSecondary} onChange={(e) => setAboutSecondary(e.target.value)} /></label><label>经历数字<input value={experienceValue} onChange={(e) => setExperienceValue(e.target.value)} placeholder="例如：2+" /></label><label>经历单位<input value={experienceUnit} onChange={(e) => setExperienceUnit(e.target.value)} placeholder="例如：年" /></label><label>代表项目数字<input value={projectValue} onChange={(e) => setProjectValue(e.target.value)} placeholder="例如：8" /></label><label>代表项目单位<input value={projectUnit} onChange={(e) => setProjectUnit(e.target.value)} placeholder="例如：部+" /></label><label>公司名称<input value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="例如：河南荧灿文化发展" /></label><label>任职时间<input value={companyPeriod} onChange={(e) => setCompanyPeriod(e.target.value)} placeholder="例如：2024—2026" /></label><label>手机号<input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="例如：166 2511 6217" /></label><label>邮箱<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="例如：name@example.com" /></label><button type="button" onClick={saveProfile}>保存首页、关于我与联系方式</button></section>
     <section><h3>页面背景与素材</h3><label>首页背景视频<input type="file" accept="video/*" data-field="heroVideo" onChange={uploadSiteMedia}/></label><label>首页背景图<input type="file" accept="image/*" data-field="heroPoster" onChange={uploadSiteMedia}/></label><label>关于页图片<input type="file" accept="image/*" data-field="portrait" onChange={uploadSiteMedia}/></label><label>联系页背景<input type="file" accept="image/*" data-field="contactBackground" onChange={uploadSiteMedia}/></label></section>
     <section><h3>添加图片资产</h3><label>图片归类<select value={galleryCategory} onChange={(e) => setGalleryCategory(e.target.value)}><option value="characters">人物资产图</option><option value="scenes">场景资产图</option></select></label><input placeholder="图片名称" value={title} onChange={(e) => setTitle(e.target.value)}/><label className="upload-label"><CloudArrowUp size={18}/>选择图片<input type="file" accept="image/*" onChange={uploadGallery}/></label></section>
     {content.galleryAssets.length > 0 && <section><h3>已发布图片资产</h3><div className="admin-project-list">{content.galleryAssets.map((asset) => <div key={asset.id} className="admin-project-row"><span><strong>{asset.label}</strong><small>{asset.category === "scenes" ? "场景资产图" : "人物资产图"}</small></span><button type="button" className="admin-delete" onClick={() => removeGalleryAsset(asset)} aria-label={`删除${asset.label}`}><Trash size={16}/>删除</button></div>)}</div></section>}
