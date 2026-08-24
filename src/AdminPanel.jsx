@@ -8,6 +8,8 @@ export default function AdminPanel({ content, onContentChange }) {
   const [config, setConfig] = useState(() => loadCosConfig() || { secretId: "", secretKey: "" });
   const [title, setTitle] = useState("");
   const [galleryCategory, setGalleryCategory] = useState("characters");
+  const [companyName, setCompanyName] = useState(() => content.profile?.companyName || "河南荧灿文化发展");
+  const [companyPeriod, setCompanyPeriod] = useState(() => content.profile?.companyPeriod || "2024—2026");
 
   function saveConfig() {
     saveCosConfig(config);
@@ -36,6 +38,16 @@ export default function AdminPanel({ content, onContentChange }) {
       await syncManifest(next); onContentChange(next); setStatus("页面素材已同步到 COS。");
     } catch (error) { setStatus(error.message); }
     event.target.value = "";
+  }
+  async function saveProfile() {
+    if (!companyName.trim() || !companyPeriod.trim()) return setStatus("请填写公司名称和任职时间。");
+    try {
+      setStatus("正在同步任职信息…");
+      const next = { ...content, profile: { ...content.profile, companyName: companyName.trim(), companyPeriod: companyPeriod.trim() } };
+      await syncManifest(next);
+      onContentChange(next);
+      setStatus("任职公司信息已同步，访客刷新后即可看到。");
+    } catch (error) { setStatus(error.message); }
   }
   async function removeGalleryAsset(asset) {
     if (!window.confirm(`确认从网站移除「${asset.label}」吗？`)) return;
@@ -72,6 +84,7 @@ export default function AdminPanel({ content, onContentChange }) {
   return <aside className="admin-drawer" aria-label="内容管理"><header><strong>内容管理</strong><button type="button" onClick={() => setOpen(false)}><X size={20} /></button></header><div className="admin-scroll">
     <p className="admin-note">桶：liwanmin-0115-1454067572（广州）。视频、图片和内容清单都会自动同步到 COS，访客刷新后即可看到。</p>
     <section><h3>腾讯云 COS 授权</h3><input placeholder="SecretId（建议使用仅限此桶写入的子账号）" value={config.secretId} onChange={(e) => setConfig({ ...config, secretId: e.target.value })}/><input type="password" placeholder="SecretKey" value={config.secretKey} onChange={(e) => setConfig({ ...config, secretKey: e.target.value })}/><button type="button" onClick={saveConfig}>保存授权</button><p className="admin-note">密钥仅保存在当前浏览器，不会提交到 GitHub。</p></section>
+    <section><h3>任职公司信息</h3><label>公司名称<input value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="例如：河南荧灿文化发展" /></label><label>任职时间<input value={companyPeriod} onChange={(e) => setCompanyPeriod(e.target.value)} placeholder="例如：2024—2026" /></label><button type="button" onClick={saveProfile}>保存任职信息</button></section>
     <section><h3>页面背景与素材</h3><label>首页背景视频<input type="file" accept="video/*" data-field="heroVideo" onChange={uploadSiteMedia}/></label><label>首页背景图<input type="file" accept="image/*" data-field="heroPoster" onChange={uploadSiteMedia}/></label><label>关于页图片<input type="file" accept="image/*" data-field="portrait" onChange={uploadSiteMedia}/></label><label>联系页背景<input type="file" accept="image/*" data-field="contactBackground" onChange={uploadSiteMedia}/></label></section>
     <section><h3>添加图片资产</h3><label>图片归类<select value={galleryCategory} onChange={(e) => setGalleryCategory(e.target.value)}><option value="characters">人物资产图</option><option value="scenes">场景资产图</option></select></label><input placeholder="图片名称" value={title} onChange={(e) => setTitle(e.target.value)}/><label className="upload-label"><CloudArrowUp size={18}/>选择图片<input type="file" accept="image/*" onChange={uploadGallery}/></label></section>
     {content.galleryAssets.length > 0 && <section><h3>已发布图片资产</h3><div className="admin-project-list">{content.galleryAssets.map((asset) => <div key={asset.id} className="admin-project-row"><span><strong>{asset.label}</strong><small>{asset.category === "scenes" ? "场景资产图" : "人物资产图"}</small></span><button type="button" className="admin-delete" onClick={() => removeGalleryAsset(asset)} aria-label={`删除${asset.label}`}><Trash size={16}/>删除</button></div>)}</div></section>}
