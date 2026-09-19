@@ -193,7 +193,8 @@ export function App() {
             ["02", "其他板块", "OTHER WORKS", "otherWorks"],
           ].map(([number, title, label, category]) => {
             const projects = content.projects.filter((project) => (project.category || "shortDrama") === category);
-            return <button className="project-category-card project-category-button" type="button" key={category} data-reveal onClick={() => setActiveCategory({ title, label, projects })}><div className="project-category-topline"><span>{number}</span><i aria-hidden="true" /></div><div className="project-category-title"><BlurText as="small" text={label} delay={80} /><BlurText as="h3" text={title} delay={120} /></div><span className="project-category-enter">查看 {projects.length ? `${projects.length} 个项目` : "项目"} →</span></button>;
+            const backgroundUrl = content.siteMedia?.[`${category}Background`];
+            return <button className="project-category-card project-category-button" type="button" key={category} data-reveal onClick={() => setActiveCategory({ title, label, projects })}>{backgroundUrl && <span className="project-category-background" style={{ backgroundImage: `url("${backgroundUrl}")` }} aria-hidden="true" />}<div className="project-category-topline"><span>{number}</span><i aria-hidden="true" /></div><div className="project-category-title"><BlurText as="small" text={label} delay={80} /><BlurText as="h3" text={title} delay={120} /></div><span className="project-category-enter">查看 {projects.length ? `${projects.length} 个项目` : "项目"} →</span></button>;
           })}
         </div>
       </section>

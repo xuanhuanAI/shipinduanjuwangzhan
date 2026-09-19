@@ -295,15 +295,35 @@ img, video { display: block; width: 100%; }
   background: linear-gradient(115deg, rgba(255,255,255,.08), transparent 30%, transparent 72%, rgba(201,255,47,.025));
   pointer-events: none;
 }
+.project-category-background {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  opacity: .52;
+  transform: scale(1.01);
+  transition: opacity 260ms ease, transform 500ms ease;
+  pointer-events: none;
+}
+.project-category-background::after {
+  position: absolute;
+  content: "";
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5,5,5,.28), rgba(5,5,5,.82));
+}
 .project-category-card:hover {
   border-color: rgba(201,255,47,.34);
   background: linear-gradient(145deg, rgba(255,255,255,.095), rgba(255,255,255,.025));
   transform: translateY(-5px);
 }
+.project-category-card:hover .project-category-background {
+  opacity: .65;
+  transform: scale(1.045);
+}
 .project-category-topline,
 .project-category-title {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 .project-category-topline {
   display: flex;
