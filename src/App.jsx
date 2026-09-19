@@ -52,7 +52,7 @@ export function App() {
     );
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
-  }, []);
+  }, [content.galleryAssets]);
 
   useEffect(() => {
     const close = (event) => {
